@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JR東日本ランダムピッカー</title>
+    <style>
+        /* スロットの見た目を少し整えます */
+        .slot {
+            width: 1000px;
+            height: 150px;
+            border: 2px solid black;
+            margin: 10px;
+            background-color: lightgray;
+            margin: 0 auto;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+         /* ボタンのデザイン */
+        button {
+            display: block;
+            width: 150px;
+            padding: 10px;
+            margin: 20px auto;
+            font-size: 1.2em;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        body{font-family: '07にくまるフォント'}
+        h1{ text-indent: 4em;
+            color: #008803;
+
+        }
+        p{ font-family: 'MS　ゴシック';
+           font-size: 20px;
+           text-indent: 6em;
+           margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>JR東日本ランダムピッカー</h1>
+    <div class="slot" id="slot1">
+    </div>
+    <br>
+    <button onclick="spin()">検索する</button>
+
+    <script>
+        // 画像ファイルのリスト
+        const symbols = [
+            '1 ikebukuro.png','2 ootuka.png','3 sugamo.png',
+            '4 komagome.png','5 tabata.png','6 nisinippori.png',
+            '7 nippori.png','8 uguisudani.png','9 ueno.png',
+            '10 okatimati.png','11 akihabara.png','12 kannda.png',
+            '13 toukyou.png','14 yuurakutyou.png','15 sinnbasi.png',
+            '16 hamamatutyou.png','17 tamati.png','18 takanawage-touxei.png',
+            '19 sinagawa.png','20 oosaki.png','21 gotannda.png',
+            '22 meguro.png','23 ebisu.png','24 sibuya.png',
+            '25 harazyuku.png','26 yoyogi.png','27 sinnzyuku.png',
+            '28 sinnookubo.png','29 meziro.png','30 takadanobaba.png',
+            '31 oomiya.png','32 saitamasinntosinn.png','33 yono.png',
+            '34 kitaurawa.png','35 urawa.png','36 minamiurawa.png',
+            '37 warabi.png','38 nisikawaguti.png','39 kawaguti.png',
+            '40 akabane.png','41 higasizyuuzyou.png','42 ouzi.png',
+            '43 kaminakazato.png','44 ooimati.png','45 oomori.png',
+            '46 kamata.png','47 kawasaki.png','48 turumi.png',
+            '49 sinnkoyasu.png','50 higasikanagawa.png','51 yokohama.png',
+            '52 sakuragityou.png','53 kannnai.png','54 isikawatyou.png',
+            '55 yamate.png','56 negisi.png','57 isogo.png',
+            '58 sinnsugita.png','59 youkoudai.png','60 kounanndai.png',
+            '61 honngoudai.png','62 oohuna.png','63 totuka.png','64 huzisawa.png','65 tuzidou.png','66 tigasaki.png','67 hiratuka.png','68 ooiso.png','69 ninomiya.png','70 koudu.png','71 kamonomiya.png','72 odawara.png','73 hayakawa.png','74 nebukawa.png','75 manaduru.png','76 yugawara.png','77 atami.png','78 kinomiya.png','79 izutaga.png','80 aziro.png','81 usami.png','82 itou.png','83 nisiooi.png','84 musasikosugi.png','85 sinnkawasaki.png','86 hodogaya.png','87 higasitotuka.png','88 kitakamakura.png','89 kamakura.png','90 zusi.png','91 higasizusi.png','92 taura.png','93 yokosuka.png','94 kinugasa.png','95 kurihama.png','96 otyanomizu.png','97 yotuya.png','98 nakano.png','99 kouennzi.png','100 asagaya.png','101 ogikubo.png','102 nisiogikubo.png','103 kitizyouzi.png','104 mitaka.png','105 musasisakai.png','106 higasikoganei.png','107 musasikoganei.png','108 kokubunnzi.png','109 nisikokubunnzi.png','110 kunitati.png','111 tatikawa.png','112 hino.png','113 toyoda.png','114 hatiouzi.png','115 nisihatiouzi.png','116 takao.png','117 sagamiko.png','118 huzino.png','119 uenohara.png','120 siotu.png','121 yanagawa.png','122 torisawa.png','123 saruhasi.png','124 ootuki.png','125 hatukari.png','126 sasago.png','127 kaiyamato.png','128 katunumabudoukyou.png','129 ennzann.png','130 higasiyamanasi.png','131 yamanasisi.png','132 kasugaityou.png','133 isawaonnsenn.png','134 sakaori.png','135 kouhu.png','136 ryuuou.png','137 siozaki.png','138 nirasaki.png','139 sinnpu.png','140 anayama.png','141 hinoharu.png','142 nagasaka.png','143 kobutizawa.png','144 higasinakano.png','145 ookubo.png','146 senndagaya.png','147 sinanomati.png','148 itigaya.png','149 iidabasi.png','150 suidoubasi.png','151 asakusabasi.png','152 ryougoku.png','153 kinnsityou.png','154 kameido.png','155 hirai.png','156 sinnkoiwa.png','157 koiwa.png','158 itikawa.png','159 motoyawata.png','160 simousanakayama.png','161 nisihunabasi.png','162 hunabasi.png','163 higasihunabasi.png','164 tudanuma.png','165 makuharihonngou.png','166 makuhari.png','167 inage.png','168 nisitiba.png','169 tiba.png','170 nisitatikawa.png','171 higasinakagami.png','172 nakagami.png','173 akisima.png','174 haizima.png','175 usihama.png','176 hussa.png','177 hamura.png','178 ozaku.png','179 kabe.png','180 higasioume.png','181 oume.png','182 miyanohira.png','183 hinatawada.png','184 isigamimae.png','185 hutamatao.png','186 ikusabata.png','187 sawai.png','188 mitake.png','189 kawai.png','190 kori.png','191 hatonosu.png','192 siromaru.png','193 okutama.png','194 kumagawa.png','195 higasiakiru.png','196 akigawa.png','197 musasihikida.png','198 musasimasuko.png','199 musasiitukaiti.png','200 itabasi.png','201 zyuuzyou.png','202 kitaakabane.png','203 ukimahunado.png','204 todakouenn.png','205 toda.png','206 kitatoda.png','207 musasiurawa.png','208 nakaurawa.png','209 minamiyono.png','210 yonohonnmati.png','211 kitayono.png','212 utunomiya.png','213 suzumenomiya.png','214 isibasi.png','215 zitiidai.png','216 koganei.png','217 oyama.png','218 mamada.png','219 nogi.png','220 koga.png','221 kurihasi.png','222 higasiwasinomiya.png','223 kuki.png','224 sinnsiraoka.png','225 siraoka.png','226 hasuda.png','227 higasioomiya.png','228 toro.png','229 maebasi.png','230 sinnmaebasi.png','231 ino.png','232 takasakitonnyamati.png','233 takasaki.png','234 kuragano.png','235 sinnmati.png','236 zinnbohara.png','237 honnzyou.png','238 okabe.png','239 hukaya.png','240 kagohara.png','241 kumagaya.png','242 gyouda.png','243 hukiage.png','244 kitakounosu.png','245 kounosu.png','246 kitamoto.png','247 okegawa.png','248 kitaageo.png','249 ageo.png','250 miyahara.png','251 nissinn.png','252 nisioomiya.png','253 sasiougi.png','254 minamihuruya.png','255 kawagoe.png','256 nisikawagoe.png','257 matoba.png','258 kasahata.png','259 musasitakahagi.png','260 komagawa.png','261 oku.png','262 okamoto.png','263 housyakuzi.png','264 uziie.png','265 kamasusaka.png','266 kataoka.png','267 yaita.png','268 nozaki.png','269 nisinasuno.png','270 nasusiobara.png','271 kuroiso.png','272 kitasennzyu.png','273 ayase.png','274 kameari.png','275 kanamati.png','276 matudo.png','277 kitamatudo.png','278 mabasi.png','279 sinnmatudo.png','280 kitakogane.png','281 minamikasiwa.png','282 kasiwa.png','283 kitakasiwa.png','284 abiko.png','285 tennnoudai.png','286 toride.png','287 mikawasima.png','288 minamisennzyu.png','289 huzisiro.png','290 ryuugasakisi.png','291 usiku.png','292 hitatinousiku.png','293 arakawaoki.png','294 tutiura.png','295 kanndatu.png','296 takahama.png','297 isioka.png','298 hatori.png','299 iwama.png','300 tomobe.png','301 utihara.png','302 akatuka.png','303 kairakuenn.png','304 mito.png','305 katuta.png','306 sawa.png','307 toukai.png','308 oomika.png','309 hitatitaga.png','310 hitati.png','311 ogitu.png','312 zyuuou.png','313 takahagi.png','314 kisaradu.png','315 ooami.png','316 hukutawara.png','317 tougane.png','318 gumyou.png','319 narutou.png','320 higasitiba.png','321 tuga.png','322 yotukaidou.png','323 monoi.png','324 sakura.png','325 minamisisui.png','326 enokido.png','327 yatimata.png','328 hyuuga.png','329 matuo.png','330 yokosiba.png','331 iigura.png','332 youkaitiba.png','333 higata.png','334 asahi.png','335 iioka.png','336 kurahasi.png','337 saruda.png','338 matugisi.png','339 tyousi.png','340 bakurotyou.png','341 sinnnihonnbasi.png','342 hattyoubori.png','343 ettyuuzima.png','344 siomi.png','345 sinnkiba.png','346 kasairinnkaikouenn.png','347 maihama.png','348 sinnurayasu.png','349 itikawasiohama.png','350 hutamatasinnmati.png','351 minamihunabasi.png','352 sinnnarasino.png','353 makuharitoyosuna.png','354 kaihinnmakuhari.png','355 kemigawahama.png','356 inagekaigann.png','357 tibaminato.png','358 soga.png','359 honntiba.png','360 hamano.png','361 yawatazyuku.png','362 goi.png','363 anegasaki.png','364 nagaura.png','365 sodegaura.png','366 iwane.png','367 kimitu.png','368 aohori.png','369 oonuki.png','370 sanukimati.png','371 kazusaminato.png','372 takeoka.png','373 hamakanaya.png','374 hota.png','375 awakatuyama.png','376 iwai.png','377 tomiura.png','378 nakohunakata.png','379 tateyama.png','380 kokonoe.png','381 tikura.png','382 titose.png','383 minamihara.png','384 wadaura.png','385 emi.png','386 hutomi.png','387 awakamogawa.png','388 kamatori.png','389 honnda.png','390 toke.png','391 nagata.png','392 honnnou.png','393 sinnmobara.png','394 mobara.png','395 yatumi.png','396 kazusaitinomiya.png','397 torami.png','398 taitou.png','399 tyouzyamati.png','400 mikado.png','401 oohara.png','402 namihana.png','403 onnzyuku.png','404 katuura.png','405 ubara.png','406 kazusaokitu.png','407 namegawaairanndo.png','408 awakominato.png','409 awaamatu.png','410 hutyuuhonnmati.png','411 kitahutyuu.png','412 sinnkodaira.png','413 sinnakitu.png','414 higasitokorozawa.png','415 niiza.png','416 kitaasaka.png','417 nisiurawa.png','418 higasiurawa.png','419 higasikawaguti.png','420 minamikosigaya.png','421 kosigayareikutaunn.png','422 yosikawa.png','423 yosikawaminami.png','424 sinnmisato.png','425 misato.png','426 minaminagareyama.png','427 sinnyahasira.png','428 higasimatudo.png','429 itikawaoono.png','430 hunabasihoutenn.png','431 hamakawasaki.png','432 odasakae.png','433 kawasakisinnmati.png','434 hattyounawate.png','435 sitte.png','436 yakou.png','437 kasimada.png','438 hirama.png','439 mukaigawara.png','440 musasinakahara.png','441 musasisinnzyou.png','442 musasimizonokuti.png','443 tudayama.png','444 kuzi.png','445 syukugawara.png','446 noborito.png','447 nakanosima.png','448 inadadutumi.png','449 yanokuti.png','450 inaginaganuma.png','451 minamitama.png','452 bubaigawara.png','453 nisihu.png','454 yaho.png','455 yagawa.png','456 nisikunitati.png','457 kokudou.png','458 turumiono.png','459 benntennbasi.png','460 asano.png','461 annzenn.png','462 musasisiraisi.png','463 syouwa.png','464 ougimati.png','465 sinnsibaura.png','466 umisibaura.png','467 ookawa.png','468 ooguti.png','469 kikuna.png','470 sinnyokohama.png','471 kodukue.png','472 kamoi.png','473 nakayama.png','474 tookaitiba.png','475 nagatuta.png','476 naruse.png','477 matida.png','478 kobuti.png','479 hutinobe.png','480 yabe.png','481 sagamihara.png','482 hasimoto.png','483 aihara.png','484 hatiouziminamino.png','485 katakura.png','486 kitatigasaki.png','487 kagawa.png','488 samukawa.png','489 miyayama.png','490 kurami.png','491 kadosawabasi.png','492 syake.png','493 atugi.png','494 ebina.png','495 iriya.png','496 soubudaisita.png','497 simomizo.png','498 harataima.png','499 bannda.png','500 kamimizo.png','501 minamihasimoto.png','502 kitahatiouzi.png','503 komiya.png','504 higasihussa.png','505 hakonegasaki.png','506 kaneko.png','507 higasihannnou.png','508 moro.png','509 ogose.png','510 myoukaku.png','511 ogawamati.png','512 takezawa.png','513 orihara.png','514 yorii.png','515 youdo.png','516 matuhisa.png','517 kodama.png','518 tannsyou.png','519 gunnmahuzioka.png','520 kitahuzioka.png','521 sawara.png','522 katori.png','523 zyuunikyou.png','524 itako.png','525 nobukata.png','526 kasimazinnguu.png','527 kasimasakka-sutaziamu.png','528 odabayasi.png','529 yuuki.png','530 higasiyuuki.png','531 kawasima.png','532 tamado.png','533 simodate.png','534 niihari.png','535 yamato.png','536 iwase.png','537 haguro.png','538 hukuhara.png','539 inada.png','540 kasama.png','541 sisido.png','542 kitatakasaki.png','543 gunnmayawata.png','544 annnaka.png','545 isobe.png','546 matuida.png','547 nisimatuida.png','548 yokokawa.png','549 higasiabiko.png','550 kohoku.png','551 araki.png','552 husa.png','553 kiorosi.png','554 kobayasi.png','555 aziki.png','556 simousamannzaki.png','557 narita.png','558 sisui.png','559 kuzumi.png','560 namegawa.png','561 simousakouzaki.png','562 ooto.png','563 suigou.png','564 omigawa.png','565 sasagawa.png','566 simousatatibana.png','567 simousatoyosato.png','568 siisiba.png','569 naritakuukou.png','570 kuukoudainibiru.png','571 maebasioosima.png','572 komagata.png','573 isesaki.png','574 kunisada.png','575 iwazyuku.png','576 kiryuu.png','577 omata.png','578 yamamae.png','579 asikaga.png','580 asikagahurawa-pa-ku.png','581 tomita.png','582 sano.png','583 iwahune.png','584 oohirasita.png','585 totigi.png','586 omoigawa.png','587 gunnmasouzya.png','588 yagihara.png','589 sibukawa.png','590 turuta.png','591 kanuma.png','592 hubasami.png','593 simotukeoosawa.png','594 imaiti.png','595 nikkou.png','596 kamisugaya.png','597 hitatioota.png','598 hitatioomiya.png','599 hitatidaigo.png','600 hazawayokohamakokudai.png','601 nisiya.png','602 turugamine.png','603 hutamatagawa.png','604 kibougaoka.png','605 mitukyou.png','606 seya.png','607 tennnouzuairu.png','608 ooikeibazyoumae.png','609 ryuutuusennta-.png','610 syouwazima.png','611 seibizyou.png','612 tennkuubasi.png','613 hanedakuukoudaisannta-minaru.png','614 sinnseibizyou.png','615 hanedakuukoudaiitita-minaru.png','616 hanedakuukoudainita-minaru.png'
+            ];
+
+        // スロットを回す関数
+        function spin() {
+            // ランダムに画像を選ぶ
+            const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+
+            // 画像のソースを変更して、リールを更新
+            document.getElementById('slot1').innerHTML = `<img src="${randomSymbol}" alt="スロット絵">`;
+        }
+    </script>
+    <p>JR東日本の駅がランダムで選ばれます。</p>
+    <p>Suicaが使える在来線の駅のみです。</p>
+    <p>新幹線の駅は表示されません。</p>
+</body>
+</html>
